@@ -1,0 +1,30 @@
+name: Validate submissions
+
+# Runs the submission checker on every pull request that touches submissions/,
+# and on pushes to main that touch them. Pure-stdlib Python — no dependencies.
+
+on:
+  pull_request:
+    paths:
+      - "submissions/**"
+      - "build/validate_submission.py"
+  push:
+    branches: [main]
+    paths:
+      - "submissions/**"
+      - "build/validate_submission.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate all submissions
+        run: python build/validate_submission.py --all

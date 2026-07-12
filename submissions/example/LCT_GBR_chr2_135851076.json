@@ -1,0 +1,174 @@
+{
+  "schema": "kairos.infer.v2",
+  "kairos_version": "0.0.1",
+  "runtime": {
+    "numpy": "2.4.4",
+    "sklearn": "1.8.0"
+  },
+  "command_seed": 0,
+  "inputs": {
+    "hap": "example/lct_gbr.hap",
+    "map": "example/lct_gbr.map",
+    "source_vcf": null
+  },
+  "parameters": {
+    "max_onset_gen": 300.0,
+    "auto_tier": false,
+    "recombination_fallback": 1e-08,
+    "years_per_generation": 28.0,
+    "diploid_ne": 12500.0,
+    "debias_onset_requested": false,
+    "n_ensemble": 11,
+    "drop_focal_missing": true,
+    "force_date": false
+  },
+  "analysis_status": {
+    "selected": true,
+    "dateable": true,
+    "force_date": false,
+    "reported_as_exploratory": false
+  },
+  "focal": {
+    "chrom": "chr2",
+    "bp": 135851076,
+    "rsid": "2:135851076:G:A",
+    "marker_requested": "chr2:135851076",
+    "modeled_allele": "derived",
+    "derived_freq": 0.7222222222222222,
+    "derived_allele": null,
+    "ancestral_allele": null,
+    "vcf_ref_alt": null,
+    "n_carriers": 130,
+    "n_haplotypes": 180
+  },
+  "demography": {
+    "ne_source": "user",
+    "ne": 12500.0,
+    "onset_model_ne_domain": [
+      3000.0,
+      20000.0
+    ],
+    "s_model_ne_domain": [
+      3000.0,
+      50000.0
+    ]
+  },
+  "selection_test": {
+    "selection_score": 0.9999999980770042,
+    "probability_calibrated": false,
+    "neutral_pvalue": 0.007042253521126761,
+    "aggregation": "max empirical p and minimum selection score across seeds",
+    "score_seed_range": [
+      0.9999999980770042,
+      0.999999998077189
+    ],
+    "pvalue_seed_range": [
+      0.007042253521126761,
+      0.007042253521126761
+    ]
+  },
+  "sweep_type": {
+    "classification": "hard-like",
+    "soft_score": 0.12354187334720214,
+    "probability_calibrated": false,
+    "score_seed_range": [
+      0.052313804635671486,
+      0.5316629243251384
+    ],
+    "consistent_across_seeds": false
+  },
+  "onset": {
+    "reported_gen": 258.367971751379,
+    "raw_gen": 258.367971751379,
+    "debiased": false,
+    "debias_skipped_reason": null,
+    "lower_gen": 80.0,
+    "upper_gen": 296.75821474404063,
+    "interval_type": "90% conformal prediction interval",
+    "years_per_gen": 28.0,
+    "tier": "recent+Ne",
+    "quantity": "selection_onset_proxy",
+    "quantity_description": "selection-onset proxy for a hard-like sweep; mutation birth is not independently identified",
+    "interval_aggregation": "envelope of per-seed 90% conformal intervals",
+    "seed_range_gen": [
+      200.27695928711736,
+      287.56126527761575
+    ]
+  },
+  "selection_coefficient": {
+    "s": 0.058490632080163016,
+    "lower": 0.03230175015629076,
+    "upper": 0.11388982312056833,
+    "conditioned_on_onset_gen": 260.6481057759358
+  },
+  "exploratory_internal_estimate": null,
+  "auto_tier": null,
+  "reliability": {
+    "grade": "A",
+    "band": "green",
+    "score": 100,
+    "reasons": [
+      "selected, recent-tier, and inside the validated applicability checks"
+    ],
+    "notes": [
+      "hard-like/soft-like call differs in a minority of seeds (10/11 agree with the ensemble call)",
+      "feature vector is near the training support reference edge (pctl=0.991)"
+    ],
+    "meaning": "applicability/domain score; not point-estimate accuracy",
+    "applicability": {
+      "grade": "A",
+      "band": "green",
+      "score": 100,
+      "reasons": [
+        "selected, recent-tier, and inside the validated applicability checks"
+      ],
+      "notes": [
+        "hard-like/soft-like call differs in a minority of seeds (10/11 agree with the ensemble call)",
+        "feature vector is near the training support reference edge (pctl=0.991)"
+      ],
+      "meaning": "applicability/domain score; not point-estimate accuracy"
+    },
+    "precision": {
+      "label": "coarse",
+      "ci_width_gen": 216.75821474404063,
+      "relative_ci_width": 0.83895156692495,
+      "expected_mae_gen": null,
+      "empirical_p90_abs_error_gen": null,
+      "calibration_scope": "descriptive only; K-ensemble point error is scenario-dependent",
+      "interval_method": "envelope of per-seed 90% conformal intervals"
+    }
+  },
+  "models": {
+    "onset_model": {
+      "file": "kairos_recent_ne.pkl",
+      "sha256": "562be3f8df477f3741dc660c9666947a8a50b963eab831e81082cde35ce26411",
+      "sha256_16": "562be3f8df477f37",
+      "role": "recent Ne-conditional model (REPORTED onset head); log(Ne) as 17th feature"
+    },
+    "s_model": {
+      "file": "kairos_recent_ne_full.pkl",
+      "sha256": "11d4c445f361d3fcc69aade6563b6b4ff99776624903f708bca4939c43218c73",
+      "sha256_16": "11d4c445f361d3fc",
+      "role": "recent Ne-extended head; s at all Ne and reported onset above 20k"
+    },
+    "selection_test": {
+      "file": "selection_test.pkl",
+      "sha256": "19a3a6e1ce5dccdecc1e32ab1fde3c7e6cf3550f96e76160a6331a2d0016b832",
+      "sha256_16": "19a3a6e1ce5dccde",
+      "role": "neutral-vs-selected ranking score + empirical null p-value"
+    },
+    "sweep_type": {
+      "file": "sweep_type.pkl",
+      "sha256": "ccc7a60a6397ad05fde216c633e10f503a9392881bbf176b5ad3e1fc295f9622",
+      "sha256_16": "ccc7a60a6397ad05",
+      "role": "uncalibrated hard-like vs soft-like classifier score"
+    },
+    "support_reference": {
+      "file": "support_reference.json",
+      "sha256": "98fe504854f1ef500cbe71758dd97519beb0f53933946c3cf527d6ca18ac2801",
+      "sha256_16": "98fe504854f1ef50",
+      "role": "feature-manifold applicability reference"
+    },
+    "debias": null
+  }
+}

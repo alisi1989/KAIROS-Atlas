@@ -13,8 +13,8 @@ required).
 
 ## Live site
 
-Enable GitHub Pages once (**Settings → Pages → Source: GitHub Actions**); every push then rebuilds and
-deploys automatically to `https://alisi1989.github.io/KAIROS-Atlas/`.
+**https://alisi1989.github.io/KAIROS-Atlas/** — every push to `main` rebuilds and redeploys it
+automatically via GitHub Actions.
 
 ## What each record shows
 
@@ -47,10 +47,35 @@ index.html               generated, self-contained, served by Pages
 data/atlas.json          generated, the same records as downloadable JSON
 ```
 
-## Contributing dated loci
+## Submit your own dated loci
 
-Run KAIROS on your own data and submit the JSON — see [CONTRIBUTING.md](CONTRIBUTING.md). Submissions
-are validated (schema + model provenance) before they enter the Atlas.
+The Atlas grows by pull request: you run KAIROS on your own polarized sample and add the JSON it
+emits. No genotypes are ever uploaded — only KAIROS's per-locus summary.
+
+**1 — Produce a record.** Run KAIROS on your sample for the variant you care about:
+
+```bash
+kairos infer --hap sample.hap --map sample.map \
+  --marker rs4988235 --ne 12500 --auto-tier --json rs4988235.json
+```
+
+**2 — Self-check it.** From a clone of this repo:
+
+```bash
+python build/validate_submission.py rs4988235.json
+```
+
+This checks the schema, the required fields, and internal consistency (carrier count vs frequency,
+each point estimate inside its interval, grade/band pairing), and prints the model hashes your record
+references. See `submissions/example/` for a reference record.
+
+**3 — Open a pull request.** Add the file under `submissions/<SUPERPOP>/<POP>/` (e.g.
+`submissions/EUR/GBR/rs4988235.json`) and, in the PR body, state the population and its ancestry, the
+effective size used, the data source, and your KAIROS version (`kairos --version`). The same check
+from step 2 runs automatically on your PR; a maintainer confirms the model provenance and merges it
+into `build/panel.tsv`, after which the site rebuilds itself.
+
+Full rules and ground rules: [CONTRIBUTING.md](CONTRIBUTING.md) · layout: [submissions/](submissions/).
 
 ## Note on the reliability grade
 
