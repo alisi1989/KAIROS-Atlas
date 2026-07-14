@@ -26,7 +26,6 @@ automatically via GitHub Actions.
 | selection test | frequency-matched empirical neutral p-value + verdict |
 | reliability | A/green (trust the point) · B/yellow (lean on the interval) · C/red (out of domain) |
 | tier · Ne | recent vs deep dating tier, and the effective size used |
-| literature | curated onset / s comparison where a published estimate exists |
 
 ## Build locally
 
@@ -79,7 +78,7 @@ Full rules and ground rules: [CONTRIBUTING.md](CONTRIBUTING.md) · layout: [subm
 
 ## Note on the reliability grade
 
-While the Atlas is seeded from the curated 1000 Genomes literature panel, the A/B/C badge is derived
+While the Atlas is seeded from the curated 1000 Genomes panel, the A/B/C badge is derived
 from the panel fields following the KAIROS reliability policy. As records are regenerated from live
 `kairos infer` JSON, the badge comes directly from the KAIROS reliability index.
 

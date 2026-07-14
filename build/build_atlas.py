@@ -2,7 +2,7 @@
 """Build the KAIROS Atlas static site.
 
 Reads the KAIROS panel TSV (one row per variant x population, with onset / s / sweep /
-selection / tier / literature) and produces:
+selection / tier) and produces:
 
   index.html        self-contained page (data injected inline, works offline / on Pages)
   data/atlas.json   the same records as a downloadable JSON
@@ -58,7 +58,6 @@ def records():
         freq = num(r["freq"])
         recent = tier.startswith("recent")
         g, band = grade(sel, tier, freq, recent)
-        lk = num(r["lit_onset_kya"])
         out.append({
             "gene": r["gene"], "rsid": r["rsid"], "chrom": r["chrom"],
             "pop": r["pop"], "superpop": r["superpop"], "ne": int(float(r["ne"])),
@@ -66,8 +65,6 @@ def records():
             "selected": sel, "sweep": r["sweep"], "p_soft": num(r["p_soft"]),
             "tier": tier, "onset_gen": num(r["onset_gen"]), "onset_ci": ci(r["onset_ci"]),
             "onset_yr": num(r["onset_yr"]), "s": num(r["s"]), "s_ci": ci(r["s_ci"]),
-            "lit_s": num(r["lit_s"]), "lit_onset_kya": lk,
-            "lit_onset_gen": (lk * 1000 / YPG if lk else None),
             "grade": g, "band": band,
         })
     return out

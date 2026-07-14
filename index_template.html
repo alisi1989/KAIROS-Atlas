@@ -1,3 +1,5 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>KAIROS Atlas — dated natural selection</title>
 <style>
   :root{
@@ -125,8 +127,6 @@
     opacity:.5}
   .pt{position:absolute;top:50%;transform:translate(-50%,-50%);width:11px;height:11px;
     border-radius:50%;border:2px solid var(--panel);box-shadow:var(--shadow)}
-  .lit{position:absolute;top:50%;transform:translate(-50%,-50%);width:0;height:12px;
-    border-left:2px dotted var(--faint);opacity:.8}
   .onlab{position:absolute;top:-1px;transform:translateX(-50%);font-family:var(--mono);
     font-size:10px;color:var(--muted);white-space:nowrap}
 
@@ -145,8 +145,6 @@
   .field .fl{font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint)}
   .field .fv{font-family:var(--mono);font-size:13.5px;margin-top:2px}
   .field .fv.txt{font-family:var(--sans)}
-  .litnote{font-size:13px;color:var(--muted);border-left:3px solid var(--line);padding:3px 0 3px 12px;
-    margin-top:4px}
   .prov{font-size:11.5px;color:var(--faint);font-family:var(--mono);margin-top:12px;
     padding-top:10px;border-top:1px dashed var(--line)}
   .empty{padding:60px 0;text-align:center;color:var(--muted)}
@@ -226,7 +224,7 @@
 
   <div class="axis-head">
     <div class="axis-title"><h2>Selection onset — thousands of years ago</h2>
-      <span id="axisnote">log scale · ● KAIROS onset · ┊ literature</span></div>
+      <span id="axisnote">log scale · ● KAIROS onset</span></div>
     <div class="grid"><div></div><div class="axis" id="axis"></div><div></div></div>
   </div>
 
@@ -251,12 +249,12 @@
       </div>
       <div>
         <h4>How to read the bar</h4>
-        The <b>●</b> is the point onset; the faded bar is its 90% interval; the dotted <b>┊</b> is the
-        literature estimate where one exists. A wide bar means an approximate point on a calibrated interval.
+        The <b>●</b> is the point onset and the faded bar is its 90% interval. A wide bar means an
+        approximate point sitting on a calibrated interval.
       </div>
     </div>
     <div class="caveat">
-      Prototype over the 166-locus 1000 Genomes literature panel (<span class="mono">kairos_1kgp_panel_K11</span>).
+      Prototype over the 166-locus 1000 Genomes panel (<span class="mono">kairos_1kgp_panel_K11</span>).
       The A/B/C badge here is <b>derived from the panel fields for the demo</b> and follows the KAIROS
       policy direction (green = in-domain, selected, recent tier); the production Atlas takes the grade
       from the live reliability index. Positions for chr:pos/region search are added from the map in the
@@ -316,10 +314,9 @@ function render(){
   const c=$("#rows"); c.innerHTML=""; $("#empty").hidden=rows.length>0;
   rows.forEach((d,i)=>{
     const b=BAND[d.band], og=d.onset_gen, oy=og*YPG;
-    const ci=d.onset_ci, lit=d.lit_onset_gen;
+    const ci=d.onset_ci;
     let bar="";
     if(ci) bar+=`<div class="bar" style="left:${xpct(ci[0]*YPG)}%;width:${xpct(ci[1]*YPG)-xpct(ci[0]*YPG)}%;background:${b.c}"></div>`;
-    if(lit) bar+=`<div class="lit" style="left:${xpct(lit*YPG)}%" title="literature ${(lit*YPG/1000).toFixed(1)} ka"></div>`;
     bar+=`<div class="pt" style="left:${xpct(oy)}%;background:${b.c}"></div>`;
     bar+=`<div class="onlab" style="left:${xpct(oy)}%">${(oy/1000).toFixed(1)} ka</div>`;
     const row=document.createElement("div"); row.className="row"; row.dataset.i=i;
@@ -334,9 +331,6 @@ function render(){
         <div class="sval">s ${d.s==null?"—":d.s.toFixed(3)}</div>
       </div>`;
     const det=document.createElement("div"); det.className="detail";
-    const litTxt = d.lit_onset_kya!=null
-      ? `Literature onset ≈ <b>${d.lit_onset_kya} ka</b> (${(d.lit_onset_gen).toFixed(0)} gen)${d.lit_s!=null?`, s ≈ ${d.lit_s}`:""}.`
-      : `No curated literature onset for this locus.`;
     det.innerHTML=`
       <div class="dgrid">
         <div class="field"><div class="fl">Onset</div><div class="fv">${fmt(og)} gen · ${(oy/1000).toFixed(1)} ka${ci?`<br><span style="color:var(--faint)">90% CI ${(ci[0]*YPG/1000).toFixed(1)}–${(ci[1]*YPG/1000).toFixed(1)} ka</span>`:""}</div></div>
@@ -346,7 +340,6 @@ function render(){
         <div class="field"><div class="fl">Frequency</div><div class="fv">${fmt(d.freq,3)}<br><span style="color:var(--faint)">${d.n_car} carriers</span></div></div>
         <div class="field"><div class="fl">Tier · Ne</div><div class="fv txt">${d.tier}<br><span style="color:var(--faint)" class="mono">Ne ${d.ne.toLocaleString()}</span></div></div>
       </div>
-      <div class="litnote">${litTxt}</div>
       <div class="prov">${d.gene} · ${d.rsid} · ${d.chrom} · ${d.pop} — KAIROS auto-tier, K=11, Ne ${d.ne.toLocaleString()} (diploid). ${d.sweep==="de novo"?"Onset = selection onset.":"Onset = carrier-lineage age proxy (standing variation)."}</div>`;
     row.addEventListener("click",()=>{const was=row.classList.contains("open");
       document.querySelectorAll(".row.open").forEach(r=>r.classList.remove("open"));
