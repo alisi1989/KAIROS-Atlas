@@ -198,9 +198,9 @@
       <button class="chip" data-f="sweep" data-v="de novo">Hard sweep</button>
       <button class="chip" data-f="sweep" data-v="SGV">Standing variation</button>
       <select class="sort" id="sort" style="margin-left:auto">
+        <option value="gene" selected>Sort: gene A–Z</option>
         <option value="onset">Sort: oldest onset</option>
         <option value="onset_asc">Sort: youngest onset</option>
-        <option value="gene">Sort: gene A–Z</option>
         <option value="s">Sort: strongest s</option>
       </select>
     </div>
@@ -270,7 +270,7 @@ const SPCOL={AFR:"#c9700e",EUR:"#2c7fb8",EAS:"#1f9d63",SAS:"#8250b8",AMR:"#c0392
 const BAND={green:{c:"var(--green)",bg:"var(--green-bg)",g:"A"},yellow:{c:"var(--amber)",bg:"var(--amber-bg)",g:"B"},
   red:{c:"var(--red)",bg:"var(--red-bg)",g:"C"},na:{c:"var(--na)",bg:"var(--na-bg)",g:"—"}};
 const L=Math.log, xpct=y=>Math.max(0,Math.min(100,(L(y)-L(YMIN))/(L(YMAX)-L(YMIN))*100));
-const state={q:"",sp:new Set(),band:new Set(),sel:false,sweep:new Set(),sort:"onset"};
+const state={q:"",sp:new Set(),band:new Set(),sel:false,sweep:new Set(),sort:"gene"};
 const $=s=>document.querySelector(s);
 
 function axis(){
